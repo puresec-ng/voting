@@ -5,7 +5,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --max-old-space-size=8192",
     "start": "next start",
     "prepare": "husky install",
     "analyze": "ANALYZE=true next build",
