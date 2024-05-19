@@ -39,7 +39,7 @@ const ConnectWalletButton = (props) => {
   const [openModal, setOpenModal] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  
+
   const {
     wallets,
     select,
@@ -156,7 +156,7 @@ const ConnectWalletButton = (props) => {
       }).then((res) => {
         setOpenModal(false);
         notify({ type: 'success', message: `Authorized` })
-        let wallet_address = res.data.data.customer.custodial_wallet;
+        const wallet_address = res.data.data.customer.custodial_wallet;
         localStorage.setItem('sc-details', JSON.stringify(res.data.data));
         setCookie('publicKey', wallet_address, 365);
         setCookie('token', res.data.data.token, 365);
@@ -332,7 +332,7 @@ const ConnectWalletButton = (props) => {
                         <button
                           className="flex items-center w-full p-2 font-normal default-transition h-9 hover:bg-bkg-3 hover:cursor-pointer hover:rounded focus:outline-none"
                           onClick={() => {
-                            
+
                             select(name)
                           }}
                         >
