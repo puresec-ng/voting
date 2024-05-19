@@ -67,9 +67,5 @@ if (process.env.SENTRY_AUTH_TOKEN) {
     // https://github.com/getsentry/sentry-webpack-plugin#options.
   })
 }
-config = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  }
-}
+
 module.exports = config
