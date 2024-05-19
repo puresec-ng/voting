@@ -56,7 +56,7 @@ config = withBundleAnalyzer(config)
 if (process.env.SENTRY_AUTH_TOKEN) {
   // STEP 3: Sentry error reporting. MUST COME LAST to work with sourcemaps.
   config = withSentryConfig(config, {
-
+    
     // Additional config options for the Sentry Webpack plugin. Keep in mind that
     // the following options are set automatically, and overriding them is not
     // recommended:
@@ -67,9 +67,5 @@ if (process.env.SENTRY_AUTH_TOKEN) {
     // https://github.com/getsentry/sentry-webpack-plugin#options.
   })
 }
-config = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  }
-}
+
 module.exports = config
