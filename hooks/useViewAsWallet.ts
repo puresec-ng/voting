@@ -6,15 +6,21 @@ import { useCallback, useMemo, useEffect, useState } from 'react';
 import useLegacyConnectionContext from './useLegacyConnectionContext';
 import axios from 'axios';
 
-const getCookie = (name) => {
+const getCookie = (name: string): string | undefined => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
+  if (parts.length === 2) {
+    const cookieValue = parts.pop();
+    if (cookieValue) {
+      return cookieValue.split(';').shift();
+    }
+  }
+  return undefined; // Return undefined if the cookie is not found or any part is undefined
 };
 
-const useViewAsWallet = () => {
-  const [scPublickKey, setScPublickKey] = useState(null);
-  const [scToken, setScToken] = useState(null);
+const useViewAsWallet = (): SignerWalletAdapter | undefined => {
+  const [scPublickKey, setScPublickKey] = useState<string | null>(null);
+  const [scToken, setScToken] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,10 +29,10 @@ const useViewAsWallet = () => {
       setScPublickKey(scKey);
     }
     const scTok = getCookie('token');
-    setScToken(scTok);
+    setScToken(scTok ?? null);  // Ensure it's set to null if undefined
   }, []);
 
-  const viewAs = scPublickKey ?? router.query;
+  const viewAs = scPublickKey ?? (router.query.viewAs as string);
   const err = () => {
     const msg =
       'not implemented -- you are using a debug feature. remove "viewAs" from the url and try again';
@@ -37,7 +43,7 @@ const useViewAsWallet = () => {
   const connection = useLegacyConnectionContext();
 
   const signTransaction = useCallback(
-    async (transaction: Transaction) => {
+    async (transaction: Transaction): Promise<Transaction[]> => {
       try {
         if (!(transaction instanceof Transaction)) {
           throw new Error("The provided transaction is not an instance of Transaction");
@@ -77,7 +83,7 @@ const useViewAsWallet = () => {
         }
       } catch (err) {
         console.error('Error signing transaction:', err);
-        if (err.response && err.response.data) {
+        if (axios.isAxiosError(err) && err.response && err.response.data) {
           console.log('Error response data:', err.response.data);
         }
         return []; // Return an empty array or handle the error as needed
@@ -86,46 +92,39 @@ const useViewAsWallet = () => {
     [connection]
   );
 
-
   const wallet = useMemo(
     () =>
       typeof viewAs === 'string'
-        ? (({
-          publicKey: new PublicKey(viewAs),
-          signAllTransactions: async (txs: Transaction[]) => {
-            const signedTxs = [];
-            for (const tx of txs) {
-              const signed = await signTransaction(tx);
-              signedTxs.push(...signed); // Note: Flatten the array
-            }
-            return signedTxs;
-          },
-          signTransaction,
-          signMessage: err,
-          connected: true,
-          connecting: false,
-          standard: true,
-          readyState: 'Installed',
-          icon:
-            'https://gary.club/assets/imgs/garylogowhite.png',
-          /* _events: {
-          connect: err,
-          disconnect: err,
-          readyStateChange: err,
-        }, */
-          connect: err,
-          disconnect: err,
-          // wallet:
-          name: 'Social Connector',
-          supportedTransactionVersions: new Set([0, 'Legacy']),
-          version: '1.0.0',
-          url: 'https://gary.club',
-          FAKE_DEBUG_WALLET: false,
-        } as unknown) as SignerWalletAdapter)
+        ? ({
+            publicKey: new PublicKey(viewAs),
+            signAllTransactions: async (txs: Transaction[]): Promise<Transaction[]> => {
+              const signedTxs: Transaction[] = [];
+              for (const tx of txs) {
+                const signed = await signTransaction(tx);
+                signedTxs.push(...signed); // Flatten the array
+              }
+              return signedTxs;
+            },
+            signTransaction,
+            signMessage: err,
+            connected: true,
+            connecting: false,
+            standard: true,
+            readyState: 'Installed',
+            icon: 'https://gary.club/assets/imgs/garylogowhite.png',
+            connect: err,
+            disconnect: err,
+            name: 'Social Connector',
+            supportedTransactionVersions: new Set([0, 'Legacy']),
+            version: '1.0.0',
+            url: 'https://gary.club',
+            FAKE_DEBUG_WALLET: false,
+          } as unknown as SignerWalletAdapter)
         : undefined,
     [viewAs, signTransaction]
   );
 
   return wallet;
 };
+
 export default useViewAsWallet;
