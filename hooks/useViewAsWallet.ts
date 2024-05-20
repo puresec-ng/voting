@@ -15,7 +15,7 @@ const getCookie = (name: string): string | undefined => {
       return cookieValue.split(';').shift();
     }
   }
-  return undefined; // Return undefined if the cookie is not found or any part is undefined
+  return undefined;
 };
 
 const useViewAsWallet = (): SignerWalletAdapter | undefined => {
@@ -25,11 +25,14 @@ const useViewAsWallet = (): SignerWalletAdapter | undefined => {
 
   useEffect(() => {
     const scKey = getCookie('publicKey');
+    const scTok = getCookie('token');
+    // console.log('Retrieved publicKey cookie:', scKey);
+    // console.log('Retrieved token cookie:', scTok);
+
     if (scKey) {
       setScPublickKey(scKey);
     }
-    const scTok = getCookie('token');
-    setScToken(scTok ?? null);  // Ensure it's set to null if undefined
+    setScToken(scTok ?? null);
   }, []);
 
   const viewAs = scPublickKey ?? (router.query.viewAs as string);
@@ -54,9 +57,10 @@ const useViewAsWallet = (): SignerWalletAdapter | undefined => {
           requireAllSignatures: false,
         });
         const headers = {
-          Authorization: `Bearer 4207|4izgvYxGkmHRAtsPfGauQAjxBTbkOHk4I6fXGFmP1cad68ee`,
+          Authorization: `Bearer ${scToken}`,
           'Content-Type': 'application/json',
         };
+        console.log('Authorization header:', headers.Authorization);
         const base64Transaction = serializedTransaction.toString('base64');
         const data = { transactions: [base64Transaction] };
 
@@ -86,10 +90,10 @@ const useViewAsWallet = (): SignerWalletAdapter | undefined => {
         if (axios.isAxiosError(err) && err.response && err.response.data) {
           console.log('Error response data:', err.response.data);
         }
-        return []; // Return an empty array or handle the error as needed
+        return [];
       }
     },
-    [connection]
+    [connection, scToken]
   );
 
   const wallet = useMemo(
@@ -101,7 +105,7 @@ const useViewAsWallet = (): SignerWalletAdapter | undefined => {
               const signedTxs: Transaction[] = [];
               for (const tx of txs) {
                 const signed = await signTransaction(tx);
-                signedTxs.push(...signed); // Flatten the array
+                signedTxs.push(...signed);
               }
               return signedTxs;
             },
