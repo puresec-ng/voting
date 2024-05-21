@@ -19,7 +19,7 @@ import { DEFAULT_PROVIDER } from '../utils/wallet-adapters'
 import useViewAsWallet from '@hooks/useViewAsWallet'
 import { ProfileName } from "@components/Profile/ProfileName";
 import Modal from './Modal'
-import { InputProps } from './inputs/Input'
+import Input, { InputProps } from './inputs/Input'
 import { StyledLabel, StyledSuffix, inputClasses } from './inputs/styles'
 import ErrorField from './inputs/ErrorField'
 import Button from './Button'
@@ -53,83 +53,6 @@ const ConnectWalletButton = (props) => {
   const publicKey = debugAdapter?.publicKey ?? realPublicKey
   const connected2 = debugAdapter?.connected ?? connected
 
-  const Input = ({
-    checkIcon = false,
-    type,
-    value = '',
-    onChange,
-    className,
-    wrapperClassName = 'w-full',
-    disabled,
-    label,
-    prefix,
-    prefixClassName,
-    suffix,
-    min,
-    error = '',
-    max = Number.MAX_SAFE_INTEGER,
-    step,
-    showErrorState = false,
-    noMaxWidth,
-    useDefaultStyle = true,
-    subtitle,
-    ...props
-  }: InputProps) => {
-    const numberInputOnWheelPreventChange = (e) => {
-      // Prevent the input value change
-      e.target.blur()
-
-      // Prevent the page/container scrolling
-      e.stopPropagation()
-
-      // Refocus immediately, on the next tick (after the current     function is done)
-      setTimeout(() => {
-        e.target.focus()
-      }, 0)
-    }
-    return (
-      <div className={`flex flex-col relative ${wrapperClassName}`}>
-        {label && <StyledLabel>{label}</StyledLabel>}
-        {subtitle && <p className="text-fgd-3 mb-1 -mt-2">{subtitle}</p>}
-        {prefix ? (
-          <div
-            className={`absolute left-2 top-1/2 transform -translate-y-1/2 ${prefixClassName}`}
-          >
-            {prefix}
-          </div>
-        ) : null}
-        <input
-          onWheel={numberInputOnWheelPreventChange}
-          max={max}
-          min={min}
-          type={type}
-          value={value}
-          onChange={onChange}
-          className={inputClasses({
-            className,
-            disabled,
-            error,
-            noMaxWidth,
-            useDefaultStyle,
-            showErrorState,
-          })}
-          disabled={disabled}
-          step={step}
-          {...props}
-        />
-
-        {checkIcon && !error && (
-          <CheckCircleIcon className="w-6 h-6 absolute right-2 top-1/2 text-green" />
-        )}
-
-        {suffix && <StyledSuffix>{suffix}</StyledSuffix>}
-
-        <div className={error && 'pt-1'}>
-          <ErrorField text={error}></ErrorField>
-        </div>
-      </div>
-    )
-  }
   const setCookie = (name, value, days) => {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));

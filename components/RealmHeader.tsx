@@ -47,7 +47,7 @@ const RealmHeader = () => {
 
   return (
     <div className="px-4 pt-4 border border-fgd-4 pb-4 rounded-t-lg md:px-6 md:pt-6">
-      <div
+      {/* <div
         className={`flex items-center ${isBackNavVisible ? 'justify-between' : 'justify-end'
           } mb-2 md:mb-4`}
       >
@@ -59,7 +59,7 @@ const RealmHeader = () => {
             </a>
           </Link>
         ) : null}
-      </div>
+      </div> */}
       <div className="flex flex-col items-center md:flex-row md:justify-between">
         {realmInfo?.displayName ? (
           <div className="flex items-center">
