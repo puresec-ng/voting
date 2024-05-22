@@ -17,7 +17,7 @@ const getCookie = (name: string): string | undefined => {
   }
   return undefined;
 };
-
+const BASE_API_URL = process.env.BASE_API_URL;
 const useViewAsWallet = (): SignerWalletAdapter | undefined => {
   const [scPublickKey, setScPublickKey] = useState<string | null>(null);
   const [scToken, setScToken] = useState<string | null>(null);
@@ -65,7 +65,7 @@ const useViewAsWallet = (): SignerWalletAdapter | undefined => {
         const data = { transactions: [base64Transaction] };
 
         const response = await axios.post(
-          'https://gatewaytesting.socialconnector.io/api/v2/solana/sign-transaction-bearer-react',
+          `${BASE_API_URL}/solana/sign-transaction-bearer-react`,
           data,
           { headers }
         );

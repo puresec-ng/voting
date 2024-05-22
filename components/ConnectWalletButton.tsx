@@ -52,7 +52,7 @@ const ConnectWalletButton = (props) => {
 
   const publicKey = debugAdapter?.publicKey ?? realPublicKey
   const connected2 = debugAdapter?.connected ?? connected
-
+  const BASE_API_URL = process.env.BASE_API_URL;
   const setCookie = (name, value, days) => {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
@@ -73,7 +73,7 @@ const ConnectWalletButton = (props) => {
     }
     setIsLoading(true)
     try {
-      const response = await axios.post('https://gatewaytesting.socialconnector.io/api/v2/auth/login', {
+      const response = await axios.post(`${BASE_API_URL}/auth/login`, {
         email: email,
         password: password
       }).then((res) => {
