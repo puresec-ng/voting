@@ -89,10 +89,10 @@ const ConnectWalletButton = (props) => {
       });
 
     } catch (ex) {
-      notify({ type: 'error', message: `${ex}` })
+      notify({ type: 'error', message: `An Error Occured` })
       //console.error(ex)
       setIsLoading(false)
-      throw ex
+      // throw ex
     }
     setIsLoading(false)
   }
