@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useMemo, useEffect, useState } from 'react';
 import useLegacyConnectionContext from './useLegacyConnectionContext';
 import axios from 'axios';
+import {BASE_API_URL} from "@constants/endpoints";
 
 const getCookie = (name: string): string | undefined => {
   const value = `; ${document.cookie}`;
@@ -17,7 +18,6 @@ const getCookie = (name: string): string | undefined => {
   }
   return undefined;
 };
-const BASE_API_URL = process.env.BASE_API_URL;
 const useViewAsWallet = (): SignerWalletAdapter | undefined => {
   const [scPublickKey, setScPublickKey] = useState<string | null>(null);
   const [scToken, setScToken] = useState<string | null>(null);

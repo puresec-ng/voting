@@ -7,3 +7,9 @@ export const DEVNET_RPC =
   process.env.NEXT_PUBLIC_DEVNET_RPC ||
   process.env.DEVNET_RPC ||
   'https://mango.devnet.rpcpool.com'
+
+
+export const BASE_API_URL =
+    process.env.BASE_API_URL ||
+    process.env.BASE_API_URL ||
+    'https://gatewaytesting.socialconnector.io/api/v2'

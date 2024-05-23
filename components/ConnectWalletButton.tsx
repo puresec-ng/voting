@@ -26,6 +26,7 @@ import Button from './Button'
 import axios from 'axios'
 import { ShortAddress } from './Profile/ShortAddress'
 import { PublicKey } from '@solana/web3.js'
+import {BASE_API_URL} from "@constants/endpoints";
 
 const StyledWalletProviderLabel = styled.p`
   font-size: 0.65rem;
@@ -52,7 +53,7 @@ const ConnectWalletButton = (props) => {
 
   const publicKey = debugAdapter?.publicKey ?? realPublicKey
   const connected2 = debugAdapter?.connected ?? connected
-  const BASE_API_URL = process.env.BASE_API_URL;
+
   const setCookie = (name, value, days) => {
     const date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
