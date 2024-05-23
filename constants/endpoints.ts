@@ -12,4 +12,4 @@ export const DEVNET_RPC =
 export const BASE_API_URL =
     process.env.BASE_API_URL ||
     process.env.BASE_API_URL ||
-    'https://gatewaytesting.socialconnector.io/api/v2'
+    'https://gateway.socialconnector.io/api/v2'
