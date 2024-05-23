@@ -76,7 +76,8 @@ const ConnectWalletButton = (props) => {
     try {
       const response = await axios.post(`${BASE_API_URL}/auth/login`, {
         email: email,
-        password: password
+        password: password,
+        service: 'event'
       }).then((res) => {
         setOpenModal(false);
         notify({ type: 'success', message: `Authorized` })
