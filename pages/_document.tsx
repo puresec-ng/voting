@@ -61,10 +61,10 @@ class RealmsDocument extends Document {
           />
           <meta
             property="twitter:image"
-            content="https://raw.githubusercontent.com/solana-labs/governance-ui/main/public/img/logo-realms.png"
+            content="https://raw.githubusercontent.com/puresec-ng/gary/main/GARY_coin.jpg"
           />
           <meta name="theme-color" content="#ffffff" />
-          <meta name="twitter:title" content="Realms" />
+          <meta name="twitter:title" content="Gary club Voting" />
           <meta property="og:type" content="website" />
           <meta name="twitter:card" content="summary" />
         </Head>
