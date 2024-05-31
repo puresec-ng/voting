@@ -130,7 +130,7 @@ export function AppContents(props: Props) {
   const { vsrClient } = useVsrClient()
 
   const realmName = realmInfo?.displayName ?? realm?.account?.name
-  const title = realmName ? `${realmName}` : 'Realms'
+  const title = realmName ? `${realmName}` : 'Gary Club'
 
   // Note: ?v==${Date.now()} is added to the url to force favicon refresh.
   // Without it browsers would cache the last used and won't change it for different realms

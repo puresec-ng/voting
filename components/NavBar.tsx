@@ -16,7 +16,7 @@ const NavBar = () => {
   return (
     <div className="flex flex-col sm:grid sm:grid-cols-12 relative z-20">
       <div className="flex items-center justify-between h-20 col-span-12 px-4 xl:col-start-2 xl:col-span-10 md:px-8 xl:px-4">
-        <Link href={fmtUrlWithCluster('/realms')}>
+        <Link href={fmtUrlWithCluster('/dao/BiLhzxXqUX1ckdQGjZRNSd3Fha36XwVJhJFS4x1NePeR')}>
           <div className="flex cursor-pointer sm:items-center min-w-[38px]">
             <picture>
               <source
